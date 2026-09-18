@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "name": "Drivstoff",
+    "slug": "drivstoff-app",
+    "version": "0.1.0",
+    "scheme": "drivstoff",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "platforms": ["ios", "android"],
+    "plugins": ["expo-router"]
+  }
+}
