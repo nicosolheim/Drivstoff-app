@@ -1,5 +1,31 @@
 # Teststatus
 
+## Milepæl 3 – lokasjon og kart
+
+Kontrollert 19. september 2026. Mobiltest av denne milepælen er ikke utført av agenten.
+
+- Lint og streng typecheck: bestått.
+- 21 enhetstester: bestått. Nye tester dekker tillatelse/avslag, permanent avslag, passiv tillatelsessjekk, avslått GPS, feil, tidsavbrudd, sen respons, ugyldige/gamle koordinater, ukjent nøyaktighet og endret stasjonsutvalg ved faktisk posisjon.
+- Generert native-konfigurasjon inspisert: norsk WhenInUse-tekst på iOS; coarse/fine location på Android; ingen Always-/bakgrunnslokasjon eller bevegelsestillatelse.
+- Expo Doctor: 21 av 21 kontroller bestått.
+- Hermes-bundling for iOS og Android: bestått. Dette verifiserer pakking, ikke native kjøring på telefon.
+
+### Konkret iPhone-test
+
+1. Velg `feature/location-and-map`, installer med `pnpm install --frozen-lockfile`, start med `pnpm start` og åpne i Expo Go.
+2. Ved første åpning: ingen automatisk systemdialog. Se tydelig Oslo-demo og fiktive data. Demo-posisjonen skal være brun og merket Oslo S, aldri «din posisjon».
+3. Trykk «Bruk min posisjon», tillat mens appen brukes. Kontroller blå markør, tidspunkt/nøyaktighet og avstander fra faktisk posisjon. «Oppdater posisjon» skal hente ny måling.
+4. Utenfor Oslo-dekningen: forvent ingen stasjoner innen 25 km, men kart med telefonposisjon. Velg «Utforsk Oslo-demo» og få Oslo-utvalget tilbake.
+5. Velg en grønn stasjonsmarkør. Den skal bli rød, navnet skal vises som valgt, og samme kort skal ha rød ramme og «Valgt stasjon». Velg et annet kort og kontroller tilsvarende markør.
+6. Bytt bensin/diesel. Prisene og rekkefølgen skal endres; kart og liste skal fortsatt vise samme stasjoner. Valgt stasjon skal bevares hvis den fortsatt er i utvalget.
+7. Avslå lokasjonstilgang via Expo Go-/telefoninnstillinger og prøv igjen. Appen skal vise forståelig forklaring og Oslo-demo. Ved permanent avslag skal «Åpne innstillinger» fungere. Gå tilbake etter å ha endret tillatelsen.
+8. Slå av stedstjenester, prøv igjen og kontroller forklaringen. Ved dårlig GPS skal venting ende med feilmelding etter omtrent 20 sekunder. Velg demo mens GPS venter; et sent resultat skal ikke skifte tilbake til faktisk posisjon.
+9. Legg appen i bakgrunnen og åpne igjen. Ved tidligere faktisk posisjon skal den sjekkes på nytt uten å spørre om tillatelse automatisk. Ved eksplisitt demo skal den forbli i demo.
+10. Test stor tekst, VoiceOver, små skjermer, rulling og kartzoom. Kartet er 210 punkter høyt; liste og priser skal være lett tilgjengelige under kartet. Kontroller at valgt kort kan aktiveres med skjermleser.
+11. Test uten nett: listen skal fortsatt fungere, selv om kartflisene kan mangle. Ved lang kartlasting skal en hjelpetekst vises.
+
+Tillatelsesdialogen i Expo Go tilhører Expo Go; app.json-teksten gjelder en fremtidig egen build. Native kart og systemtillatelser må også testes på Android før full plattformgodkjenning. Tillatelsesendringer påvirker Expo Go og eventuelt andre prosjekter som kjører der.
+
 ## Milepæl 2 – stasjonsliste
 
 Kontrollert 19. september 2026 på Windows med Node 24.19.0 og pnpm 11.19.0.
@@ -11,7 +37,9 @@ Kontrollert 19. september 2026 på Windows med Node 24.19.0 og pnpm 11.19.0.
 | Node-enhetstester | 14 av 14 bestått |
 | Expo Doctor, med midlertidig npm | 21 av 21 bestått |
 | Hermes-bundling for iOS og Android | Bestått |
-| Fysisk iPhone / Android med ny liste | Gjenstår |
+| Mobiltest av milepæl 2 | Bestått, bekreftet av produkteier; drivstoffvalg og prisrangering fungerer som forventet |
+
+Mobiltest er rapportert av produkteier. Eksakt enhet og system-/Expo Go-versjon er ikke oppgitt i bekreftelsen. Dette godkjenner ikke automatisk kart og lokasjon i milepæl 3.
 
 Testene dekker nullavstand, kjent avstand, symmetri, datolinje, antipoder, radiusgrense, maksimum ti nærmeste før prissortering, begge drivstofftyper, like priser, deterministisk ID-sortering, tomt utvalg og ugyldige data. Formatering testes ved meter/kilometer- og minutt/time/døgn-grenser, nøyaktig 24 timer og rett etter grensen, ulike tidssoner samt ugyldige og fremtidige tidspunkter. Klokken er fast i testene. Node skriver en ufarlig moduldeteksjonsadvarsel; ingen tester feiler.
 
