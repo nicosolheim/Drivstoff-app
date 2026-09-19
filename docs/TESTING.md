@@ -1,5 +1,44 @@
 # Teststatus
 
+## Milepæl 4B – ekte stasjonsdata og lokal cache
+
+Kontrollert 19. september 2026 på `feature/live-station-data`, fra ren og oppdatert main etter PR #2 (`e5e6c54`). Fysisk iPhone-/Android-test av 4B er ikke utført av agenten og gjenstår før godkjenning.
+
+| Kontroll | Resultat |
+| --- | --- |
+| ESLint, null tillatte advarsler | Bestått |
+| TypeScript strict, inkludert tester | Bestått |
+| Node-enhetstester | 35 av 35 bestått |
+| Expo Doctor | 21 av 21 bestått |
+| Hermes-bundling iOS / Android | Begge bestått |
+| Direkte HTTPS-nedlasting med produksjonens importer | Bestått: 1 885 stasjoner, 202 priser; alle priser klassifisert som usikre og utelatt fra aktuell rangering |
+| Native fillagring/deling og kart på telefon | Ikke testet for 4B |
+
+Nettprøven hentet data `2026-09-19T10:10:31.186Z`. Eksportparet oppga `2026-09-18T20:36:00.592877+00:00`. Både researchfilene fra 4A og direkte nettimport ble validert med ny importkode. Nettprøven bruker Node-fetch; Expo-fetch og native filsystem må også prøves på telefon. Ingen pris ble gjort aktuell av nytt hentetidspunkt.
+
+Testene bruker syntetiske data og dekker stasjonsmetadata, kilde-ID/original-ID, tre drivstofftyper, kilde og rapportantall, manglende pris, gamle priser, tvetydige/ugyldige/fremtidige tidspunkter og 24-timersgrensen. Videre testes ufullstendige eksportpar, feil antall, duplikater, ukjente stasjonsreferanser, ugyldige koordinater/priser, HTTP-/JSON-feil, offline, tidsavbrudd, avbruddssignal, kald cache, revalidering, avbrutt skriving og 12-timersgrensen på tvers av cacheinstanser.
+
+Utvalgstestene kontrollerer den felles funksjonen kart og liste får data fra, også når priser mangler, og isolasjon mellom ekte data/demo. De renderer ikke native kart. Lisenseksport testes for hele databasen, originalkildene, attribusjon og fravær av brukerposisjon. Eksisterende formaterings- og lokasjonstester består også.
+
+Node gir den kjente MODULE_TYPELESS_PACKAGE_JSON-advarselen; Metro gir NO_COLOR/FORCE_COLOR-advarsler. Første nettprøve ble blokkert av sandkassen; kjøring med godkjent nettverkstilgang bestod. Ingen av disse er feil i appen.
+
+### iPhone-test før godkjenning av 4B
+
+1. Velg `feature/live-station-data` i GitHub Desktop. Kjør `pnpm install --frozen-lockfile` og `pnpm start` fra innerste prosjektmappe. Åpne med Expo Go for SDK 57.
+2. Start med nett. Forvent «EKTE STASJONSDATA», automatisk nedlasting, «Sist hentet» og et fast Oslo S-utsnitt tydelig merket som ikke GPS. Ingen automatisk lokasjonsdialog eller fiktive stasjoner.
+3. Trykk «Bruk min posisjon». Tillat mens appen brukes. Kontroller blå posisjonsmarkør, hentetid/nøyaktighet, ekte stasjoner og avstander. Maks ti nærmeste innen 25 km vises. Uten stasjoner: forståelig tomtilstand og demovalg.
+4. Bytt bensin 95, bensin 98 og diesel. Kart/listen skal vise samme stasjoner også uten pris. Forvent «Pris ikke tilgjengelig» eller tydelig ubekreftet/historisk pris. Med dagens kilde forventes melding om manglende aktuelle priser og avstandssortering, ingen billigst-kåring.
+5. Kontroller prisstatus også i markørens infoboble. Velg via kart og kort: samme stasjon skal bli rød og markert. Appstart eller nedlasting skal ikke gjøre prisen ferskere.
+6. Velg «Bruk fiktiv Oslo-demo»: bare Demo-stasjoner, synlig testmerking, brun Oslo S-markør. Bare én demooppføring har bensin 98. «Vis ekte stasjoner» og «Bruk min posisjon» skal gå ut av demo uten kildeblanding. Gamle testpriser forblir gamle.
+7. Etter vellykket henting: slå av Wi-Fi/mobildata. Listen, dataalder og demo skal fortsatt fungere. Kartfliser kan mangle. For full kaldstart uten nett må JS-bundelen allerede være tilgjengelig i Expo Go, eller en separat development/release-build brukes; utviklingsserverens nettbehov er ikke en feil i datacachen.
+8. Med tom datacache og utilgjengelig datakilde: forvent forklaring, nytt forsøk og demo. Bruk ren testinstallasjon eller slett kun `stations-v1-a.json`, `stations-v1-b.json` og `stations-last-attempt.txt` i appens sandbox med native utviklingsverktøy. Ikke slett alle Expo Go-data uten å ta hensyn til andre prosjekter. Alternativt blokker datakilden selektivt mens Metro er tilgjengelig. Enhetstestene dekker dette dersom slike verktøy ikke finnes.
+9. Åpne på nytt innen 12 timer: «Sist hentet» skal stå stille. Etter 12 timer hentes nye data i forgrunnen (innen omtrent ett minutt hvis appen står åpen). Ved feil kan «Prøv datainnhenting igjen» brukes før fristen. Prisregistreringstiden skal forbli uendret.
+10. Legg appen i bakgrunnen under henting. Tidligere data beholdes og avbrutt henting kan prøves igjen. Test avvist lokasjon, deaktivert GPS og retur fra innstillinger som i milepæl 3. Fast Oslo-utsnitt skal aldri utgis for telefonposisjon.
+11. Åpne «Datakilder og lisenser»: kontroller kildelenker og separat hentetid/eksporttid. Lagre JSON i Filer med «Lagre eller del datagrunnlag». Kontroller hele databasen, originalfiler og lisensmetadata, uten GPS-posisjon. Prøv også offline etter at data er lagret.
+12. Kontroller liten skjerm, stor tekst, VoiceOver og rulling. Gjenta hovedflyt, fillagring og fildeling på Android før plattformgodkjenning.
+
+Noter telefonmodell, systemversjon, Expo Go-versjon og resultat. Tidligere godkjenning av milepæl 3 omfatter ikke cache/deling i 4B.
+
 ## Milepæl 3 – lokasjon og kart
 
 Produkteier har senere bekreftet fullført og godkjent fysisk iPhone-test av GPS, kart, stasjonsliste og drivstoffvalg. PR #1 er godkjent og merget til main. Telefonmodell og eksakte system-/Expo Go-versjoner er ikke oppgitt; dette er ikke en bekreftelse på Android-test eller separat gjennomføring av hvert feilscenario nedenfor.

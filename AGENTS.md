@@ -2,7 +2,7 @@
 
 ## Mål og avgrensning
 - Bygg en enkel norsk mobilapp med React Native, Expo, Expo Router og streng TypeScript.
-- MVP: lokasjon med samtykke, kart, lokale eksempelstasjoner, bensin/diesel, nærhet og prisrangering med prisalder.
+- MVP: lokasjon med samtykke, kart, ekte stasjoner fra offentlig JSON med lokal cache, separat fiktiv demo, bensin 95/98 og diesel, nærhet og prisrangering med prisalder.
 - Ikke legg til backend, Supabase, innlogging, OCR, varslinger eller prisprognoser.
 - Ikke bygg forbruk, rabatter, ruteplanlegging eller totaløkonomisk rangering før dette er avtalt.
 
@@ -14,7 +14,10 @@
 - Installer bare nødvendige avhengigheter. Velg Expo-kompatible versjoner og sjekk inn én lockfil.
 - All brukerrettet tekst skal være på norsk. Merk eksempeldata synlig som fiktive.
 - Avstand er luftlinje i MVP, ikke kjørelengde eller omvei. Ikke presenter laveste literpris som garantert laveste totalkostnad.
-- Prisoppdateringer skal ha faste ISO-tidsstempler med tidssone; ikke frisk opp gamle data ved appstart.
+- Normaliser pristid bare når kilden oppgir gyldig ISO-tid med tidssone. Bevar originaltekst; manglende/tvetydig tid er ukjent, aldri antatt lokal tid. Skill hentetid, eksporttid og prisregistrering. Ikke frisk opp gamle priser ved appstart.
+- Bare priser høyst 24 timer gamle med entydig tidspunkt kan delta i «Billigst nå». Stasjoner uten aktuell pris beholdes i kart/listens felles utvalg og sorteres etter avstand.
+- Hold ekte data og fiktiv Oslo-demo adskilt. Valider eksportpar og cache; behold siste gyldige data ved feil. Ingen bakgrunnssynkronisering. Ordinær oppfrisking høyst hver 12. time.
+- Bevar kilde-ID-er og prisproveniens. Vis Drivstoffpriser/OSM-attribusjon og ODbL-lenke. Hele datagrunnlaget skal kunne eksporteres; ingen GPL-kode kopieres fra kildeprosjektet.
 - Håndter avvist tillatelse, avslått lokasjon, lasting, feil og manglende nærliggende stasjoner.
 - Be bare om lokasjon mens appen brukes. Ikke lagre eller send posisjonen til egen backend.
 
