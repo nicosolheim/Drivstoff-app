@@ -14,10 +14,11 @@ export function formatDistance(km: number): string {
   return meters < 1000 ? `${meters} m` : `${distanceFormatter.format(km)} km`;
 }
 
-function priceAgeMs(updatedAt: string, now: number): number | null {
+export function priceAgeMs(updatedAt: string, now: number): number | null {
   // Explicit timezone prevents device-dependent interpretation.
   if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/.test(updatedAt)) return null;
-  const timestamp = Date.parse(updatedAt);
+  // ISO milliseconds are portable across Hermes and Node; preserve the original elsewhere.
+  const timestamp = Date.parse(updatedAt.replace(/(\.\d{3})\d+/, '$1'));
   if (!Number.isFinite(timestamp) || !Number.isFinite(now) || timestamp > now) return null;
   const datePart = updatedAt.slice(0, 10);
   // Date.parse otherwise silently normalizes dates such as February 30.
