@@ -2,6 +2,8 @@
 
 ## Milepæl 3 – lokasjon og kart
 
+Produkteier har senere bekreftet fullført og godkjent fysisk iPhone-test av GPS, kart, stasjonsliste og drivstoffvalg. PR #1 er godkjent og merget til main. Telefonmodell og eksakte system-/Expo Go-versjoner er ikke oppgitt; dette er ikke en bekreftelse på Android-test eller separat gjennomføring av hvert feilscenario nedenfor.
+
 Kontrollert 19. september 2026. Mobiltest av denne milepælen er ikke utført av agenten.
 
 - Lint og streng typecheck: bestått.

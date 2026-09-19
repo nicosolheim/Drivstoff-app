@@ -63,7 +63,9 @@ Forarbeid (utført): undersøk miljø og GitHub, skriv prosjektregler og plan.
 1. **Kjørbar grunnapp:** opprett minimal Expo/Router-app med strict TypeScript, norsk startskjerm og kommandoer for lint/typecheck. Kontroller avhengigheter og bundling. Commit og push fungerende grunnlag.
 2. **Data og liste:** legg inn domenetyper, eksempeldata, testet avstandsberegning, utvalg, drivstoffvalg, prisrangering og alder. Bruk fast Oslo-demo, uten kart eller lokasjonstillatelser. Én commit etter kontroller; produkteier håndterer GitHub Desktop-push hvis terminalen ikke får tilgang.
 3. **Lokasjon og kart:** koble til tillatelser, brukerposisjon og stasjonsmarkører. Legg til feil-, demo- og tomtilstander. Kontroller og commit/push.
-4. **Mobilverifisering:** test på iOS og Android med Expo Go, dokumenter oppstart og testresultater. Rett funn før endelig MVP-milepæl.
+4. **Ekte data:** 4A er research og arkitektur på `feature/real-fuel-data`, dokumentert i PRISDATA-ARKITEKTUR.md. Ingen integrasjon før planen er godkjent. 4B følger den foreslåtte trinnvise implementeringsplanen og avklaringene om kildeferskhet og lisens.
+
+Mobilverifisering inngår i hver funksjonelle milepæl på iOS/Android. Dokumenter faktiske resultater og rett funn før godkjenning.
 
 ## Kontroll ved kodeendringer
 
@@ -79,8 +81,8 @@ Milepæl 1 er implementert med Expo SDK 57, Expo Router og streng TypeScript. Pr
 
 Milepæl 2 er fullført og mobiltestet av produkteier: bensin/diesel fungerer som forventet og prisrangeringen oppleves intuitiv. Endringene er pushet til GitHub. Telefonmodell og versjoner ble ikke oppgitt.
 
-Milepæl 3 gjennomføres på `feature/location-and-map`, opprettet fra ren main etter vellykket fetch og verifisert null avvik mot origin/main. Den legger til expo-location, kart med samme stasjonsutvalg som listen, felles stasjonsvalg og eksplisitt demo ved avslag/feil. Posisjon hentes på forespørsel, ikke gjennom bakgrunnssporing. Se TESTING.md for kontrollresultater og mobiltest.
+Milepæl 3 er fullført og godkjent av produkteier. GPS, kart, stasjonsliste og drivstoffvalg fungerer på fysisk iPhone. PR #1 er godkjent og merget til main (`9abf641`). Android-godkjenning er ikke rapportert. Se TESTING.md for kontrollresultater.
 
 Fra nå av brukes én branch per milepæl, små commits og Pull Request mot main. Ingen automatisk merge. Beslutningen om fremtidige eksterne prisdata er dokumentert i PRISDATA.md; prisformatet beholdes foreløpig.
 
-Repositoryet ligger i `C:\Users\nicos\Code\Drivstoff app\Drivstoff app`. Git bruker noreply-adressen. Neste steg etter milepæl 3 er produkteiers fysiske mobiltest og PR-gjennomgang før eventuell merge.
+Repositoryet ligger i `C:\Users\nicos\Code\Drivstoff app\Drivstoff app`. Git bruker noreply-adressen. Milepæl 4A er kun dokumentasjon. Neste steg er produkteiers arkitekturgjennomgang og kildeavklaringer før eventuell 4B-utvikling.
