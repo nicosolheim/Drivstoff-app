@@ -19,6 +19,7 @@
 - Be bare om lokasjon mens appen brukes. Ikke lagre eller send posisjonen til egen backend.
 
 ## Sikkerhet og Git
+- Fra milepæl 3: én branch per milepæl fra oppdatert main. Bruk små, forståelige commits, push branchen og opprett PR mot main når autentisering tillater det. Ikke merge uten produkteiers godkjenning.
 - Ingen secrets, tokens, API-nøkler eller private miljøfiler i repositoryet.
 - Inspiser eksisterende repository og historikk før oppsett. Ikke overskriv brukerarbeid eller force-push.
 - Gjør små commits ved fungerende milepæler og push dem til nicosolheim/drivstoff-app når tilgangen fungerer.

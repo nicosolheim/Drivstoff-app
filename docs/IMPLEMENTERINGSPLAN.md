@@ -20,11 +20,11 @@ src/
     _layout.tsx           # Router og felles ramme
     index.tsx             # Kart, valg og liste
   components/
-    StationMap.tsx
+    station-map.tsx
     station-card.tsx
     fuel-selector.tsx
   hooks/
-    useUserLocation.ts
+    use-user-location.ts
   data/
     stations.ts
   lib/
@@ -77,6 +77,10 @@ Forarbeid (utført): undersøk miljø og GitHub, skriv prosjektregler og plan.
 
 Milepæl 1 er implementert med Expo SDK 57, Expo Router og streng TypeScript. Produkteier har bekreftet at grunnappen fungerer som forventet på fysisk iPhone i Expo Go. Android-test gjenstår.
 
-Milepæl 2 er implementert med lokale eksempeldata, drivstoffvalg, luftlinjeavstand, prisrangering og prisalder. Ingen kart, lokasjonstillatelser eller backend er lagt til. Kontroller og manuell teststatus føres i TESTING.md.
+Milepæl 2 er fullført og mobiltestet av produkteier: bensin/diesel fungerer som forventet og prisrangeringen oppleves intuitiv. Endringene er pushet til GitHub. Telefonmodell og versjoner ble ikke oppgitt.
 
-Repositoryet ligger i `C:\Users\nicos\Code\Drivstoff app\Drivstoff app`. Git bruker noreply-adressen, og milepæl 1 er pushet via GitHub Desktop. Neste utviklingsmilepæl er lokasjon og kart, etter at listen er kontrollert på telefon.
+Milepæl 3 gjennomføres på `feature/location-and-map`, opprettet fra ren main etter vellykket fetch og verifisert null avvik mot origin/main. Den legger til expo-location, kart med samme stasjonsutvalg som listen, felles stasjonsvalg og eksplisitt demo ved avslag/feil. Posisjon hentes på forespørsel, ikke gjennom bakgrunnssporing. Se TESTING.md for kontrollresultater og mobiltest.
+
+Fra nå av brukes én branch per milepæl, små commits og Pull Request mot main. Ingen automatisk merge. Beslutningen om fremtidige eksterne prisdata er dokumentert i PRISDATA.md; prisformatet beholdes foreløpig.
+
+Repositoryet ligger i `C:\Users\nicos\Code\Drivstoff app\Drivstoff app`. Git bruker noreply-adressen. Neste steg etter milepæl 3 er produkteiers fysiske mobiltest og PR-gjennomgang før eventuell merge.

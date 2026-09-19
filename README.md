@@ -1,8 +1,25 @@
 # Drivstoff
 
-Norsk mobilapp med en første prisrangert stasjonsliste. Milepæl 2 bruker utelukkende fiktive stasjoner og priser samt en fast demo-posisjon ved Oslo S. Kart og faktisk lokasjon kommer senere.
+Norsk mobilapp med kart og prisrangert stasjonsliste. Milepæl 3 bruker telefonens posisjon når du velger «Bruk min posisjon», og tilbyr en tydelig Oslo-demo ved avslag eller feil. Alle stasjoner og priser er fortsatt fiktive.
 
 Velg bensin eller diesel. Appen finner inntil ti nærmeste stasjoner innen 25 km luftlinje, og sorterer utvalget på literpris, avstand og ID. Seks av de sju eksempelstasjonene ligger innenfor radiusen. Kortene viser pris i kr/l, luftlinjeavstand og prisalder. Priser eldre enn 24 timer merkes som gamle. Tidspunktene er faste: eksempeldataene blir eldre etter hvert, og appstart oppdaterer dem ikke. Prisalderen oppfriskes hvert 30. sekund og når appen blir aktiv igjen.
+
+Antallet seks gjelder Oslo-demoen; med faktisk posisjon varierer utvalget. Kart og liste mottar nøyaktig samme utvalg. Trykk på en stasjonsmarkør eller et kort for å velge stasjon. Rød markør, ramme og «Valgt stasjon» viser valget. Posisjonsmarkøren er blå for hentet telefonposisjon og brun for Oslo-demo.
+
+## Lokasjon og kart
+
+- Appen starter i eksplisitt Oslo-demo. «Bruk min posisjon» ber om tillatelse kun mens appen brukes.
+- Posisjonen hentes én gang, uten kontinuerlig sporing. «Oppdater posisjon» henter en ny måling. Måletidspunkt og estimert nøyaktighet vises.
+- Posisjonen finnes bare i minnet. Den logges ikke, lagres ikke lokalt og sendes ikke til egen backend. Kartleverandøren laster kartdata for området som vises.
+- Appen bruker ingen bakgrunnslokasjon. Ved retur fra bakgrunnen sjekkes tillatelse og posisjon på nytt dersom brukeren tidligere valgte faktisk posisjon. Ingen ny systemdialog åpnes automatisk.
+- Avslag, avslåtte stedstjenester, GPS-feil eller 20 sekunders venting på GPS gir forståelig forklaring og Oslo-demo. En sen GPS-respons får ikke overstyre brukerens demovalg.
+- Ved permanent avslag kan innstillinger åpnes. Slå på stedstjenester i telefonens innstillinger hvis GPS er deaktivert.
+- Uten eksempelstasjoner innen 25 km vises telefonposisjonen og en tomtilstand med «Utforsk Oslo-demo». Ingen fiktiv dekning opprettes rundt telefonen.
+- Kartet krever nettverk for kartfliser. Listen er lokal og kan fortsatt brukes hvis kartet laster langsomt.
+
+Kart fungerer i Expo Go uten egne kartnøkler. En selvstendig Android-app trenger senere Google Maps-oppsett; dette er ikke konfigurert nå. Expo Go bruker sin egen tillatelsesdialog; den norske systemteksten i app.json gjelder egne native builds. Se [Expo kart](https://docs.expo.dev/versions/latest/sdk/map-view/) og [Expo lokasjon](https://docs.expo.dev/versions/v57.0.0/sdk/location/).
+
+Fremtidig automatisk prisinnhenting og vurdering av domenetyper er beskrevet i [PRISDATA.md](docs/PRISDATA.md). Ingen ekstern priskilde er integrert.
 
 ## Kom i gang
 
@@ -12,6 +29,8 @@ Bruk Node.js 24 LTS og pnpm 11.19.0. Prosjektmappen er den innerste `Drivstoff a
 pnpm install --frozen-lockfile
 pnpm start
 ```
+
+Ved testing av milepæl 3: velg `feature/location-and-map` i GitHub Desktop før installasjon og oppstart. `main` beholdes uendret frem til produkteiers PR-gjennomgang.
 
 Åpne appen i Expo Go som støtter SDK 57. Telefon og PC må være på samme nettverk. Skann QR-koden i terminalen med iPhone-kameraet eller Expo Go på Android. Godkjenn lokal nettverkstilgang hvis telefonen spør. Det kreves ingen Expo-konto eller egne API-nøkler for denne milepælen.
 
