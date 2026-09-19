@@ -1,5 +1,7 @@
 # Milepæl 4A: ekte norske drivstoffdata – research og arkitektur
 
+**Oppfølging i 4B:** Produkteier godkjente alternativ A etter merge av PR #2 og ba om integrasjon mens kildeforespørselen om gamle priser avventes. Dette dokumentet beholder researchfunnene og vurderingene fra 4A. Dagens implementasjon og teststatus finnes i README og TESTING.md. Ingen nye tjenester er innført. `expo-sharing` er lagt til i tillegg til fillagring for å tilby hele det bearbeidede datagrunnlaget og originaleksporten som JSON under ODbL fra appen, uten at brukeren trenger tilgang til vårt private repository. Dette er et konkret tiltak for ODbL §4.6; endelig vurdering før kommersiell distribusjon og spørsmålene om rettighetskjeden står fortsatt åpne. Se [Expo fildeling](https://docs.expo.dev/versions/latest/sdk/sharing/) og [Expo fillagring](https://docs.expo.dev/versions/latest/sdk/filesystem/).
+
 Undersøkt 19. september 2026. Beslutningsgrunnlag for produkteier, ikke en implementert integrasjon. Appkode, avhengigheter og funksjonalitet er uendret. Arbeidet ligger på `feature/real-fuel-data`, opprettet fra ren og oppdatert `main` (`9abf641`, merge av PR #1). Milepæl 3 er godkjent av produkteier etter fysisk iPhone-test av GPS, kart, liste og drivstoffvalg.
 
 ## 1. Konklusjon og anbefalt beslutning
