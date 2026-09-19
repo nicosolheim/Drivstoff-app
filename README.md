@@ -1,6 +1,8 @@
 # Drivstoff
 
-Norsk mobilapp som etter hvert skal sammenligne drivstoffpriser i nærheten av brukeren. Første tekniske milepæl er en minimal Expo-app med norsk startskjerm. Kart, lokasjon og priser kommer i neste milepæler.
+Norsk mobilapp med en første prisrangert stasjonsliste. Milepæl 2 bruker utelukkende fiktive stasjoner og priser samt en fast demo-posisjon ved Oslo S. Kart og faktisk lokasjon kommer senere.
+
+Velg bensin eller diesel. Appen finner inntil ti nærmeste stasjoner innen 25 km luftlinje, og sorterer utvalget på literpris, avstand og ID. Seks av de sju eksempelstasjonene ligger innenfor radiusen. Kortene viser pris i kr/l, luftlinjeavstand og prisalder. Priser eldre enn 24 timer merkes som gamle. Tidspunktene er faste: eksempeldataene blir eldre etter hvert, og appstart oppdaterer dem ikke. Prisalderen oppfriskes hvert 30. sekund og når appen blir aktiv igjen.
 
 ## Kom i gang
 
@@ -31,6 +33,7 @@ Bytt `start` med for eksempel `lint`, `typecheck` eller `install --frozen-lockfi
 ```powershell
 pnpm lint
 pnpm typecheck
+pnpm test
 pnpm exec expo install --check
 pnpm peers check
 pnpm export:mobile
@@ -39,7 +42,7 @@ pnpm dlx expo-doctor
 
 Expo Doctor bruker npm internt. Hvis npm mangler, kjør `pnpm --package=npm --package=expo-doctor dlx expo-doctor` for en midlertidig installasjon kun til kontrollen.
 
-Det finnes ingen domenelogikk å enhetsteste i denne milepælen. Tester av avstand, sortering og prisalder kommer sammen med funksjonene. Se [teststatus](docs/TESTING.md).
+Testene bruker Nodes innebygde testverktøy og TypeScript-støtten i Node 24. Ingen ekstra testløper er installert; kun Node-typedefinisjoner er lagt til som utviklingsavhengighet. Testene dekker avstand, radius, nærmeste utvalg, bensin/diesel-rangering, formattering og prisalder med en fast testklokke. Node kan skrive en ufarlig MODULE_TYPELESS_PACKAGE_JSON-advarsel når TypeScript-testene leses som ES-moduler. Se [teststatus](docs/TESTING.md).
 
 ## Valg og struktur
 

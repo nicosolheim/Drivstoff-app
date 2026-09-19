@@ -21,8 +21,8 @@ src/
     index.tsx             # Kart, valg og liste
   components/
     StationMap.tsx
-    StationCard.tsx
-    FuelSelector.tsx
+    station-card.tsx
+    fuel-selector.tsx
   hooks/
     useUserLocation.ts
   data/
@@ -58,11 +58,12 @@ Kilder: [Expo kart](https://docs.expo.dev/versions/latest/sdk/map-view/), [Expo 
 
 ## Små milepæler
 
-1. **Forarbeid:** undersøk miljø og GitHub, skriv prosjektregler og denne planen. Avklar Git-tilgang og forfatteridentitet før commit.
-2. **Kjørbar grunnapp:** opprett minimal Expo/Router-app med strict TypeScript, norsk startskjerm og kommandoer for lint/typecheck. Kontroller avhengigheter og bundling. Commit og push fungerende grunnlag.
-3. **Data og liste:** legg inn domenetyper, eksempeldata, testet avstandsberegning, utvalg, drivstoffvalg, prisrangering og alder. Commit og push etter kontroller.
-4. **Lokasjon og kart:** koble til tillatelser, brukerposisjon og stasjonsmarkører. Legg til feil-, demo- og tomtilstander. Kontroller og commit/push.
-5. **Mobilverifisering:** test på iOS og Android med Expo Go, dokumenter oppstart og testresultater. Rett funn før endelig MVP-milepæl.
+Forarbeid (utført): undersøk miljø og GitHub, skriv prosjektregler og plan.
+
+1. **Kjørbar grunnapp:** opprett minimal Expo/Router-app med strict TypeScript, norsk startskjerm og kommandoer for lint/typecheck. Kontroller avhengigheter og bundling. Commit og push fungerende grunnlag.
+2. **Data og liste:** legg inn domenetyper, eksempeldata, testet avstandsberegning, utvalg, drivstoffvalg, prisrangering og alder. Bruk fast Oslo-demo, uten kart eller lokasjonstillatelser. Én commit etter kontroller; produkteier håndterer GitHub Desktop-push hvis terminalen ikke får tilgang.
+3. **Lokasjon og kart:** koble til tillatelser, brukerposisjon og stasjonsmarkører. Legg til feil-, demo- og tomtilstander. Kontroller og commit/push.
+4. **Mobilverifisering:** test på iOS og Android med Expo Go, dokumenter oppstart og testresultater. Rett funn før endelig MVP-milepæl.
 
 ## Kontroll ved kodeendringer
 
@@ -74,6 +75,8 @@ Kilder: [Expo kart](https://docs.expo.dev/versions/latest/sdk/map-view/), [Expo 
 
 ## Status
 
-Grunnappen er implementert med Expo SDK 57, Expo Router og streng TypeScript. Lint, typecheck, Expo-versjonskontroll, peer-kontroll, Expo Doctor (21/21) og mobilbundling for iOS/Android er bestått. Test på fysisk telefon gjenstår; se TESTING.md.
+Milepæl 1 er implementert med Expo SDK 57, Expo Router og streng TypeScript. Produkteier har bekreftet at grunnappen fungerer som forventet på fysisk iPhone i Expo Go. Android-test gjenstår.
 
-Repositoryet ligger i `C:\Users\nicos\Code\Drivstoff app\Drivstoff app`, og prosjektreglene og planen er kopiert inn der. Git-forfatteridentitet er konfigurert. Terminalens GitHub-autentisering har tidligere feilet; push kontrolleres ved milepælen. Neste utviklingsmilepæl er lokale eksempeldata, drivstoffvalg og testet stasjonsliste.
+Milepæl 2 er implementert med lokale eksempeldata, drivstoffvalg, luftlinjeavstand, prisrangering og prisalder. Ingen kart, lokasjonstillatelser eller backend er lagt til. Kontroller og manuell teststatus føres i TESTING.md.
+
+Repositoryet ligger i `C:\Users\nicos\Code\Drivstoff app\Drivstoff app`. Git bruker noreply-adressen, og milepæl 1 er pushet via GitHub Desktop. Neste utviklingsmilepæl er lokasjon og kart, etter at listen er kontrollert på telefon.

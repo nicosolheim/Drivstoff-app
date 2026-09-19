@@ -5,7 +5,7 @@ export default function RootLayout() {
   return (
     <>
       <StatusBar style="dark" />
-      <Stack screenOptions={{ headerShown: false }} />
+      <Stack screenOptions={{ title: 'Drivstoff', headerStyle: { backgroundColor: '#F3F6F2' }, headerTintColor: '#183B2C', headerShadowVisible: false }} />
     </>
   );
 }
