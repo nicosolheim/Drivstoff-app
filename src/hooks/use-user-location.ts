@@ -15,6 +15,7 @@ export function useUserLocation() {
   const [state, setState] = useState<State>({ status: 'demo' });
   const requestId = useRef(0);
   const wantsLocation = useRef(false);
+  const invalidate = useCallback(() => { requestId.current += 1; }, []);
   const refresh = useCallback(async (request = true) => {
     wantsLocation.current = true;
     const id = ++requestId.current;
@@ -40,7 +41,7 @@ export function useUserLocation() {
         if (wantsLocation.current) void refresh(false); // Never show a system permission prompt automatically.
       }
     });
-    return () => { ++requestId.current; subscription.remove(); };
-  }, [refresh]);
+    return () => { invalidate(); subscription.remove(); };
+  }, [refresh, invalidate]);
   return { state, refresh, useDemo };
 }

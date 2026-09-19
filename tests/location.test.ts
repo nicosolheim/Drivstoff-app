@@ -41,3 +41,24 @@ test('disabled GPS, rejected requests, stale fixes and timeout have explicit out
   assert.deepEqual(await locate(access({ currentPosition: async () => ({ coords: { latitude: 0, longitude: 0, accuracy: 1 }, timestamp: 0 }) }), true), { status: 'error' });
   assert.deepEqual(await locate(access({ currentPosition: () => new Promise(() => {}) }), true, 5), { status: 'timeout' });
 });
+
+test('invalid coordinates are rejected; unavailable accuracy remains explicit', async () => {
+  const fix = (latitude: number, accuracy: number | null) => access({ currentPosition: async () => ({
+    coords: { latitude, longitude: 10, accuracy }, timestamp: Date.now(),
+  }) });
+  assert.deepEqual(await locate(fix(NaN, 10), true), { status: 'error' });
+  assert.deepEqual(await locate(fix(91, 10), true), { status: 'error' });
+  const result = await locate(fix(59, -1), true);
+  assert.equal(result.status, 'ready');
+  if (result.status === 'ready') assert.equal(result.accuracy, null);
+});
+
+test('late GPS completion does not replace a timeout result', async () => {
+  let resolveFix: ((fix: Awaited<ReturnType<LocationAccess['currentPosition']>>) => void) | undefined;
+  const pending = new Promise<Awaited<ReturnType<LocationAccess['currentPosition']>>>((resolve) => { resolveFix = resolve; });
+  const result = await locate(access({ currentPosition: () => pending }), true, 5);
+  assert.deepEqual(result, { status: 'timeout' });
+  resolveFix?.({ coords: { latitude: 59, longitude: 10, accuracy: 5 }, timestamp: Date.now() });
+  await pending;
+  assert.deepEqual(result, { status: 'timeout' });
+});

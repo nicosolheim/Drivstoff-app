@@ -66,3 +66,10 @@ test('demo data has unique IDs and six stations within radius, with different ch
   assert.equal(diesel[0]?.station.id, 'demo-04');
   assert.ok(!ids(petrol).includes('demo-07'));
 });
+
+test('actual origin changes distances and yields an empty selection outside demo coverage', () => {
+  const oslo = rankNearbyStations(STATIONS, DEMO_POSITION, 'petrol');
+  const moved = rankNearbyStations(STATIONS, { latitude: 59.93, longitude: 10.75 }, 'petrol');
+  assert.notEqual(oslo[0]?.distanceKm, moved[0]?.distanceKm);
+  assert.deepEqual(rankNearbyStations(STATIONS, { latitude: 60.39, longitude: 5.32 }, 'petrol'), []);
+});

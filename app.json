@@ -11,6 +11,7 @@
       "locationWhenInUsePermission": "Drivstoff bruker posisjonen din for å vise eksempelstasjoner i nærheten mens du bruker appen.",
       "locationAlwaysPermission": false,
       "locationAlwaysAndWhenInUsePermission": false,
+      "motionUsagePermission": false,
       "isIosBackgroundLocationEnabled": false,
       "isAndroidBackgroundLocationEnabled": false,
       "isAndroidForegroundServiceEnabled": false
