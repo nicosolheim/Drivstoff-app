@@ -1,5 +1,11 @@
 # Teststatus
 
+## UX-oppfølging til PR #3 – 27. september 2026
+
+Overskriften skiller nå mellom «stasjoner nær deg» ved faktisk GPS-posisjon, «stasjoner rundt Oslo S» ved fast utgangspunkt og «Oslo-demo · fiktive teststasjoner» i demo. Ved aktuelle priser i live-modus brukes «Laveste aktuelle priser» sammen med stedsteksten. Prisregler, utvalg og design er uendret.
+
+Seks nye tester dekker de tre kontekstene med og uten aktuelle priser, inkludert at demo aldri fremstår som brukerens posisjon. Alle 41 enhetstester, lint, typecheck og Hermes-bundling for iOS/Android består. Lokal Expo-versjonskontroll i offline-modus fant ingen avvik; avhengigheter er uendret. Lint/typecheck måtte kjøres med utvidet tilgang etter EPERM i sandkassen. Fysisk mobiltest gjenstår: kontroller overskriften før GPS-tillatelse, etter innvilget/avvist tillatelse og ved bytte til/fra demo. Aktuelle-priser-varianten er testet med syntetiske data og kan ikke forventes fra dagens kilde.
+
 ## Milepæl 4B – ekte stasjonsdata og lokal cache
 
 Kontrollert 19. september 2026 på `feature/live-station-data`, fra ren og oppdatert main etter PR #2 (`e5e6c54`). Fysisk iPhone-/Android-test av 4B er ikke utført av agenten og gjenstår før godkjenning.

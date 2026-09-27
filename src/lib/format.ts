@@ -1,6 +1,14 @@
+import type { DataMode } from '../types/station.ts';
+
 const priceFormatter = new Intl.NumberFormat('nb-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const distanceFormatter = new Intl.NumberFormat('nb-NO', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const DAY_MS = 24 * 60 * 60 * 1000;
+
+export function formatStationHeading(mode: DataMode, actualPosition: boolean, hasCurrentPrices: boolean): string {
+  if (mode === 'demo') return 'Oslo-demo · fiktive teststasjoner';
+  const area = actualPosition ? 'stasjoner nær deg' : 'stasjoner rundt Oslo S';
+  return hasCurrentPrices ? `Laveste aktuelle priser · ${area}` : area;
+}
 
 export function formatPrice(price: number): string {
   return Number.isFinite(price) && price > 0 ? `${priceFormatter.format(price)} kr/l` : 'Pris ukjent';

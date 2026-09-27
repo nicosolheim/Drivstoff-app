@@ -9,6 +9,7 @@ import { useUserLocation } from '../hooks/use-user-location';
 import { useStationData } from '../hooks/use-station-data';
 import { DEMO_POSITION, STATIONS } from '../data/stations';
 import { MAX_STATIONS, stationSelection, SEARCH_RADIUS_KM } from '../lib/stations';
+import { formatStationHeading } from '../lib/format';
 import type { DataMode, FuelType } from '../types/station';
 
 export default function HomeScreen() {
@@ -84,13 +85,13 @@ export default function HomeScreen() {
       {selected && <Text accessibilityLiveRegion="polite" style={{ color: '#9A2034', fontWeight: '600' }}>Valgt: {selected.station.name}</Text>}
       <FuelSelector value={fuel} onChange={setFuel} />
       <View style={{ gap: 8 }}>
-        <Text accessibilityRole="header" style={{ fontSize: 19, fontWeight: '700', color: '#183B2C' }}>{FUEL_LABELS[fuel]} · {currentCount ? 'Billigst nå' : 'stasjoner nær deg'}</Text>
+        <Text accessibilityRole="header" style={{ fontSize: 19, fontWeight: '700', color: '#183B2C' }}>{FUEL_LABELS[fuel]} · {formatStationHeading(mode, actualPosition, currentCount > 0)}</Text>
         <Text selectable style={{ fontSize: 15, lineHeight: 23, color: '#48594E' }}>
           {stations.length} stasjoner · maks {MAX_STATIONS} innen {SEARCH_RADIUS_KM} km luftlinje.
         </Text>
         <Text style={{ color: '#48594E', lineHeight: 21 }}>{currentCount
           ? `${currentCount} priser registrert siste 24 timer rangeres på literpris. Andre stasjoner følger etter nærhet. Prisene er ikke garantert ved pumpen.`
-          : 'Aktuelle prisdata er ikke tilgjengelige for dette utvalget. Stasjonene vises etter avstand. Gamle og usikre priser brukes ikke til å kåre billigst nå.'}</Text>
+          : 'Aktuelle prisdata er ikke tilgjengelige for dette utvalget. Stasjonene vises etter avstand. Gamle og usikre priser brukes ikke i prisrangeringen.'}</Text>
       </View>
       {stations.length === 0 ? (
         <View style={{ padding: 16, gap: 8, backgroundColor: 'white', borderRadius: 16 }}>

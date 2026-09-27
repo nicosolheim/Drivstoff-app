@@ -1,9 +1,25 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { formatDistance, formatPrice, formatPriceAge, isPriceOld } from '../src/lib/format.ts';
+import { formatDistance, formatPrice, formatPriceAge, formatStationHeading, isPriceOld } from '../src/lib/format.ts';
 
 const now = Date.parse('2026-09-18T18:00:00Z');
 const ago = (ms: number) => new Date(now - ms).toISOString();
+
+for (const fresh of [false, true]) {
+  test(`live heading with GPS identifies stations near the user (fresh prices: ${fresh})`, () => {
+    assert.equal(formatStationHeading('live', true, fresh), fresh
+      ? 'Laveste aktuelle priser · stasjoner nær deg' : 'stasjoner nær deg');
+  });
+  test(`live heading without GPS identifies Oslo S (fresh prices: ${fresh})`, () => {
+    assert.equal(formatStationHeading('live', false, fresh), fresh
+      ? 'Laveste aktuelle priser · stasjoner rundt Oslo S' : 'stasjoner rundt Oslo S');
+  });
+  test(`demo heading remains fictional regardless of position (fresh prices: ${fresh})`, () => {
+    for (const actualPosition of [false, true]) {
+      assert.equal(formatStationHeading('demo', actualPosition, fresh), 'Oslo-demo · fiktive teststasjoner');
+    }
+  });
+}
 
 test('prices use Norwegian decimal comma, two digits and kr/l', () => {
   assert.equal(formatPrice(20), '20,00 kr/l');
