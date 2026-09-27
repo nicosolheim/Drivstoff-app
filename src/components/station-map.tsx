@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { formatPrice } from '../lib/format';
+import { pricePresentation } from '../lib/prices';
 import type { Coordinates, FuelType, NearbyStation } from '../types/station';
 
-export function StationMap({ origin, demo, items, fuel, selectedId, onSelect }: {
-  origin: Coordinates; demo: boolean; items: readonly NearbyStation[]; fuel: FuelType;
+export function StationMap({ origin, demo, actualPosition, items, fuel, now, selectedId, onSelect }: {
+  origin: Coordinates; demo: boolean; actualPosition: boolean; items: readonly NearbyStation[]; fuel: FuelType; now: number;
   selectedId: string | null; onSelect: (id: string) => void;
 }) {
   const map = useRef<MapView>(null);
@@ -35,19 +35,19 @@ export function StationMap({ origin, demo, items, fuel, selectedId, onSelect }: 
           onMapReady={() => setReady(true)} onMapLoaded={() => setLoaded(true)}
           showsUserLocation={false} showsMyLocationButton={false} showsCompass={false}
           rotateEnabled={false} pitchEnabled={false} toolbarEnabled={false}>
-          <Marker coordinate={origin} title={demo ? 'Oslo S – demo-posisjon' : 'Din hentede posisjon'}
-            description={demo ? 'Dette er ikke telefonens posisjon' : 'Oppdater med «Oppdater posisjon»'} pinColor={demo ? '#79430A' : '#2465C7'} />
+          <Marker coordinate={origin} title={actualPosition ? 'Din hentede posisjon' : demo ? 'Oslo S – demo-posisjon' : 'Oslo S – fast kartutsnitt'}
+            description={actualPosition ? 'Oppdater med «Oppdater posisjon»' : 'Dette er ikke telefonens posisjon'} pinColor={actualPosition ? '#2465C7' : '#79430A'} />
           {items.map(({ station }) => (
             <Marker key={station.id} identifier={station.id} coordinate={station.coordinates}
               title={`${selectedId === station.id ? 'Valgt: ' : ''}${station.name}`}
-              description={`${formatPrice(station.prices[fuel])} · Fiktiv pris`}
+              description={`${pricePresentation(station.prices[fuel], now).label} · ${pricePresentation(station.prices[fuel], now).value}${demo ? ' · Fiktiv pris' : ''}`}
               pinColor={selectedId === station.id ? '#BC263D' : '#245D45'}
               onPress={() => onSelect(station.id)} />
           ))}
         </MapView>
       </View>
       <Text style={{ fontSize: 12, color: '#48594E' }}>
-        {demo ? 'Brun: Oslo-demo' : 'Blå: din hentede posisjon'} · Grønn: teststasjon · Rød: valgt
+        {actualPosition ? 'Blå: din hentede posisjon' : 'Brun: Oslo S (ikke GPS)'} · Grønn: {demo ? 'teststasjon' : 'stasjon'} · Rød: valgt
       </Text>
       {slow && !loaded && <Text style={{ fontSize: 13, color: '#79430A' }}>Kartet laster langsomt. Kontroller nettverket; stasjonslisten kan fortsatt brukes.</Text>}
     </View>

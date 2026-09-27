@@ -12,7 +12,7 @@
 
 ## Enkel arkitektur
 
-Én Expo Router-skjerm setter sammen kart, drivstoffvalg og liste. React-state holder valgt drivstoff og posisjon. En hook håndterer lokasjon; rene funksjoner beregner avstand og sortering. Data ligger i en lokal TypeScript-fil. Ingen server, database, innlogging eller ekstra lag for datatilgang.
+Expo Router-hovedskjermen setter sammen kart, drivstoffvalg og liste; en egen side viser datakilder/lisenser og tilbyr dataeksport. React-state holder drivstoff, datamodus og posisjon. Rene funksjoner validerer/importerer data og beregner utvalg. En liten provider med React-state deler datasettet mellom skjermene. Hooks håndterer lokasjon og forgrunnsoppdatering. Direkte HTTPS og Expo-filer brukes til cache, uten server eller innlogging. Lokal TypeScript-fil beholdes bare for eksplisitt fiktiv demo.
 
 ```text
 src/
@@ -63,7 +63,7 @@ Forarbeid (utført): undersøk miljø og GitHub, skriv prosjektregler og plan.
 1. **Kjørbar grunnapp:** opprett minimal Expo/Router-app med strict TypeScript, norsk startskjerm og kommandoer for lint/typecheck. Kontroller avhengigheter og bundling. Commit og push fungerende grunnlag.
 2. **Data og liste:** legg inn domenetyper, eksempeldata, testet avstandsberegning, utvalg, drivstoffvalg, prisrangering og alder. Bruk fast Oslo-demo, uten kart eller lokasjonstillatelser. Én commit etter kontroller; produkteier håndterer GitHub Desktop-push hvis terminalen ikke får tilgang.
 3. **Lokasjon og kart:** koble til tillatelser, brukerposisjon og stasjonsmarkører. Legg til feil-, demo- og tomtilstander. Kontroller og commit/push.
-4. **Ekte data:** 4A er research og arkitektur på `feature/real-fuel-data`, dokumentert i PRISDATA-ARKITEKTUR.md. Ingen integrasjon før planen er godkjent. 4B følger den foreslåtte trinnvise implementeringsplanen og avklaringene om kildeferskhet og lisens.
+4. **Ekte data:** 4A er godkjent og merget i PR #2. Produkteier har valgt alternativ A og autorisert 4B mens spørsmål til datakilden om gamle priser avventes. 4B på `feature/live-station-data`: prisobjekter for 95/98/diesel, validert import, to cachefiler, 12-timers oppfrisking i forgrunnen, ekte kart-/listeutvalg, separat demo, prisferskhet og lisensside med JSON-eksport. Ingen backend eller egen rapportering.
 
 Mobilverifisering inngår i hver funksjonelle milepæl på iOS/Android. Dokumenter faktiske resultater og rett funn før godkjenning.
 
@@ -85,4 +85,6 @@ Milepæl 3 er fullført og godkjent av produkteier. GPS, kart, stasjonsliste og 
 
 Fra nå av brukes én branch per milepæl, små commits og Pull Request mot main. Ingen automatisk merge. Beslutningen om fremtidige eksterne prisdata er dokumentert i PRISDATA.md; prisformatet beholdes foreløpig.
 
-Repositoryet ligger i `C:\Users\nicos\Code\Drivstoff app\Drivstoff app`. Git bruker noreply-adressen. Milepæl 4A er kun dokumentasjon. Neste steg er produkteiers arkitekturgjennomgang og kildeavklaringer før eventuell 4B-utvikling.
+Repositoryet ligger i `C:\Users\nicos\Code\Drivstoff app\Drivstoff app`. Git bruker noreply-adressen. Milepæl 4B er implementert og kontrollert med lint, typecheck, 35 tester, Expo Doctor og bundling for begge plattformer. Fysisk mobiltest og PR-godkjenning gjenstår. Ingen automatisk merge.
+
+Produktreglene over beskriver opprinnelig demo-MVP. For 4B velges de nærmeste uavhengig av pris. Bare priser med sikker registrerings-/observasjonstid høyst 24 timer gamle kan prissorteres; øvrige vises etter avstand. Tidssonefrie priser er ukjente, og nedlasting endrer aldri prisalder. Standardmodus er ekte data; fiktiv demo krever eksplisitt valg. Se README for dagens filstruktur og TESTING.md for kontrollpunktene.
